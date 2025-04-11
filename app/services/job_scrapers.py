@@ -44,6 +44,45 @@ class JobScraper:
     
     def save_job_to_db(self, job_data: Dict[str, Any]) -> Job:
         """Save job data to database"""
+         # Check for duplicate by URL or by title+company combination
+        existing_job = self.db.query(Job).filter(
+            (Job.url == job_data["url"]) |
+            ((Job.title == job_data["title"]) & (Job.company == job_data["company"]))
+        ).first()
+    
+        if existing_job:
+        # Update existing job
+            existing_job.description = job_data["description"]
+            existing_job.location = job_data["location"]
+            existing_job.salary_min = job_data.get("salary_min")
+            existing_job.salary_max = job_data.get("salary_max")
+            existing_job.job_type = job_data.get("job_type", "Full-time")
+            existing_job.remote = job_data.get("remote", False)
+            existing_job.updated_at = datetime.now()
+            existing_job.is_active = True  # Ensure it's marked as active
+            
+            # Update skills
+            # First, let's get the current skills
+            current_skill_ids = {skill.id for skill in existing_job.required_skills}
+            
+            # Extract new skills
+            skills_found = self.extract_skills_from_description(job_data["description"])
+            for skill_name in skills_found:
+                # Find or create skill
+                skill = self.db.query(Skill).filter(Skill.name == skill_name).first()
+                if not skill:
+                    skill = Skill(name=skill_name)
+                    self.db.add(skill)
+                    self.db.commit()
+                
+                # Add skill to job if not already there
+                if skill.id not in current_skill_ids:
+                    existing_job.required_skills.append(skill)
+            
+            self.db.commit()
+            self.db.refresh(existing_job)
+            return existing_job
+    
         # Create job instance
         db_job = Job(
             title=job_data["title"],

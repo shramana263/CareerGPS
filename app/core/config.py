@@ -1,7 +1,8 @@
-from pydantic import BaseSettings, PostgresDsn
+from pydantic import PostgresDsn
 from typing import Optional
 import os
 from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
 
 load_dotenv()
 
@@ -10,7 +11,7 @@ class Settings(BaseSettings):
     PROJECT_NAME:str="Job Recommendation System"
     
     #database
-    DATABASE_URL:PostgresDsn= os.getenv("DATABASE_URL")
+    DATABASE_URL:str= os.getenv("DATABASE_URL")
     
     #authentication
     SECRET_KEY:str=os.getenv("SECRET_KEY","secret-key-for-dev")
@@ -26,5 +27,10 @@ class Settings(BaseSettings):
     
     class Config:
         case_sensitive=True
+        env_file = ".env"
+    
+    @property
+    def sync_database_url(self) -> str:
+        return str(self.DATABASE_URL)
         
 settings= Settings()

@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import enum
-from app.db.base import Base
+from app.db.base_class import Base
 
 class ApplicationStatus(enum.Enum):
     APPLIED = "applied"
@@ -12,7 +12,7 @@ class ApplicationStatus(enum.Enum):
     REJECTED = "rejected"
     
 class Application(Base):
-    __tableaname__="applications"
+    __tablename__="applications"
     
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))

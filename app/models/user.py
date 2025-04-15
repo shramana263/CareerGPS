@@ -1,13 +1,13 @@
 from sqlalchemy import Column, Integer, String, Boolean , Date, Table, ForeignKey
 from sqlalchemy.orm import relationship
-from app.db.base import Base
+from app.db.base_class import Base
 
 
 user_skill= Table(
     "user_skill",
     Base.metadata,
-    Column("user_id",Integer, ForeignKey("user.id"), primary_key=True),
-    Column("skill_id", Integer, ForeignKey("skill.id"), primary_key=True)
+    Column("user_id",Integer, ForeignKey("users.id"), primary_key=True),
+    Column("skill_id", Integer, ForeignKey("skills.id"), primary_key=True)
 )
 
 class User(Base):

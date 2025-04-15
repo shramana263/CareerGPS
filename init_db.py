@@ -1,6 +1,6 @@
 # Run this script once to initialize the database
 from app.db.base import Base, engine
-# from app.models import User, Skill, Job, Application  # Import all your models
+from app.models import User, Skill, Job, Application  # Import all your models
 
 def init_db():
     # Create all tables

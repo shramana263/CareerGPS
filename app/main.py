@@ -4,7 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.db.base import engine, Base
+from app.db.database import engine
+from app.db.base_class import Base
 from app.api.routes import auth, skills, jobs, applications, users
 
 # Create all tables in the database

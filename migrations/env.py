@@ -1,10 +1,26 @@
 from logging.config import fileConfig
+import os
+import sys
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
 from app.db.base import Base
+# Import all models to ensure metadata is populated
+# 1. Import association tables first (no dependencies)
+from app.models.skill import job_skill  # Contains corrected foreign keys
+from app.models.user import user_skill  # Contains corrected foreign keys
+
+# 2. Import models with no foreign keys
+from app.models.skill import Skill  # Depends on job_skill/user_skill
+from app.models.user import User  # Depends on user_skill
+
+# 3. Import models that depend on others
+from app.models.job import Job  # Depends on Skill via job_skill
+from app.models.application import Application  
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

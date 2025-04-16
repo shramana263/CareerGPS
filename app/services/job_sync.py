@@ -107,7 +107,7 @@ class JobSyncService:
         self.db.commit()
         print(f"Removed {deleted} old inactive jobs from the database")
     
-    def schedule_sync(self, interval_hours=12):
+    async def schedule_sync(self, interval_hours=12):
         """Schedule periodic job sync"""
         schedule.every(interval_hours).hours.do(self.sync_jobs)
         

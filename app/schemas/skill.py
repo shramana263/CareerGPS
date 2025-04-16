@@ -12,4 +12,5 @@ class SkillUpdate(SkillBase):
 class Skill(SkillBase):
     id: int
     class Config:
-        orm_mode=True
+        # orm_mode=True
+        from_attributes = True 

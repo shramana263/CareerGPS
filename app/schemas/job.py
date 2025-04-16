@@ -29,4 +29,5 @@ class Job(JobBase):
     match_score: Optional[float] = None  # Added for recommendation system
     
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        from_attributes = True 

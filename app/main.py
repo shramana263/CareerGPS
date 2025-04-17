@@ -1,7 +1,6 @@
 # app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 import logging

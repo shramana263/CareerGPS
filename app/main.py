@@ -41,10 +41,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# app = FastAPI(
-#     title=settings.PROJECT_NAME,
-#     openapi_url=f"{settings.API_V1_STR}/openapi.json"
-# )
 
 # Set up CORS
 if settings.BACKEND_CORS_ORIGINS:
